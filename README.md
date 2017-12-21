@@ -1,5 +1,4 @@
-# neural-vqa-attention
-
+# SAN implementation on VQA V2.0 dataset
 Torch implementation of an attention-based visual question answering model ([Stacked Attention Networks for Image Question Answering, Yang et al., CVPR16][1]).
 
 ![Imgur](http://i.imgur.com/VbqIRZz.png)
@@ -96,16 +95,6 @@ Trained on `train` for `val` accuracies, and trained on `train`+`val` for `test`
 | [d-LSTM + n-I][4]     | 51.62   | 54.22   |
 | [HieCoAtt][9]         | 54.57   | -       |
 | [MCB][7]              | 59.14   | -       |
-
-#### VQA v1.0
-
-| Method                | test-std    |
-| ------                | --------    |
-| SAN-1                 | 59.87       |
-| SAN-2                 | 59.59       |
-| [d-LSTM + n-I][4]     | 58.16       |
-| [HieCoAtt][9]         | 62.10       |
-| [MCB][7]              | 65.40       |
 
 ## References
 
