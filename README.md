@@ -7,8 +7,8 @@ Torch implementation of an attention-based visual question answering model ([Sta
     1. [Extract image features]
     2. [Preprocess VQA dataset]
     3. [Training]
-2. [Running evaluation](#running-evaluation)
-3. [Results](#results)
+2. [Running evaluation]
+3. [Results]
 
 The model looks at an image, reads a question, and comes up with an answer to the question and a heatmap of where it looked in the image to answer it.
 
