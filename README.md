@@ -3,24 +3,16 @@ Torch implementation of an attention-based visual question answering model ([Sta
 
 ![Imgur](http://i.imgur.com/VbqIRZz.png)
 
-1. [Train your own network](#train-your-own-network)
-    1. [Extract image features](#extract-image-features)
-    2. [Preprocess VQA dataset](#preprocess-vqa-dataset)
-    3. [Training](#training)
-2. [Use a pretrained model](#use-a-pretrained-model)
-    1. [Pretrained models and data files](#pretrained-models-and-data-files)
-    2. [Running evaluation](#running-evaluation)
+1. [Train your own network]
+    1. [Extract image features]
+    2. [Preprocess VQA dataset]
+    3. [Training]
+2. [Running evaluation](#running-evaluation)
 3. [Results](#results)
 
-Intuitively, the model looks at an image, reads a question, and comes up with an answer to the question and a heatmap of where it looked in the image to answer it.
+The model looks at an image, reads a question, and comes up with an answer to the question and a heatmap of where it looked in the image to answer it.
 
 The model/code also supports referring back to the image multiple times ([Stacked Attention][1]) before producing the answer. This is supported via a `num_attention_layers` parameter in the code (default = 1).
-
-**NOTE**: This is NOT a state-of-the-art model. Refer to [MCB][7], [MLB][8] or [HieCoAtt][9] for that.
-This is a simple, somewhat interpretable model that gets decent accuracies and produces [nice-looking results](#results).
-The code was written about ~1 year ago as part of [VQA-HAT][12], and I'd meant to release it earlier, but couldn't get around to cleaning things up.
-
-If you just want to run the model on your own images, download links to pretrained models are given below.
 
 ## Train your own network
 
@@ -52,21 +44,6 @@ th prepro_img.lua -image_root /path/to/coco/images/ -gpuid 0
 th train.lua
 ```
 
-## Use a pretrained model
-
-### Pretrained models and data files
-
-All files available for download [here][10].
-
-- `san1_2.t7`: model pretrained on `train`+`val` with 1 attention layer (SAN-1)
-- `san2_2.t7`: model pretrained on `train`+`val` with 2 attention layers (SAN-2)
-- `params_1.json`: vocabulary file for training on `train`, evaluating on `val`
-- `params_2.json`: vocabulary file for training on `train`+`val`, evaluating on `test`
-- `qa_1.h5`: QA features for training on `train`, evaluating on `val`
-- `qa_2.h5`: QA features for training on `train`+`val`, evaluating on `test`
-- `img_train_1.h5` & `img_test_1.h5`: image features for training on `train`, evaluating on `val`
-- `img_train_2.h5` & `img_test_2.h5`: image features for training on `train`+`val`, evaluating on `test`
-
 ### Running evaluation
 
 ```
@@ -79,8 +56,6 @@ This will generate a JSON file containing question ids and predicted answers. To
 
 **Format**: sets of 3 columns, col 1 shows original image, 2 shows 'attention' heatmap of where the model looks, 3 shows image overlaid with attention. Input question and answer predicted by model are shown below examples.
 ![](http://i.imgur.com/Q0byOyp.jpg)
-
-More results available [here][3].
 
 ### Quantitative Results
 
@@ -100,16 +75,12 @@ Trained on `train` for `val` accuracies, and trained on `train`+`val` for `test`
 
 - [Stacked Attention Networks for Image Question Answering][1], Yang et al., CVPR16
 - [Making the V in VQA Matter: Elevating the Role of Image Understanding in Visual Question Answering][11], Goyal and Khot et al., CVPR17
-- [VQA: Visual Question Answering][6], Antol et al., ICCV15
-
 
 ## Acknowledgements
 
-- Data preprocessing script borrowed from [VT-vision-lab/VQA_LSTM_CNN][4]
+- Data preprocessing script borrowed from [VT-vision-lab/VQA_LSTM_CNN](https://github.com/GT-Vision-Lab/VQA_LSTM_CNN)
+- Torch implementation of neural-vqa-attention from [abhshkdz](https://github.com/abhshkdz/neural-vqa-attention)
 
-## License
-
-[MIT][2]
 
 
 [1]: https://arxiv.org/abs/1511.02274
