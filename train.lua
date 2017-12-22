@@ -32,7 +32,7 @@ opt = {
     -- misc
     gpu = 0,
     seed = 123,
-    checkpoint_every = 10000,
+    checkpoint_every = 6000,
     checkpoint_path = 'checkpoints/'
 }
 
