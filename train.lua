@@ -87,6 +87,37 @@ model_params, model_grad_params = model:getParameters()
 state = {}
 state.learningRate = opt.lr
 
+-- closure to calculate accuracy over validation set
+function feval_val(max_batches)
+    count = 0
+    n=loader.batch_size() ----- check what to write here
+    if max_batches ~= nil then n = math.min(n, max_batches) end
+    model:evaluate()
+    
+    for i = 1, n do
+        
+        -- load question batch, answer batch and image features batch
+        batch = dataloader:next_batch(opt) -----check what to write here
+        -- forward pass
+        scores = model:forward({batch[1], batch[2]})
+        
+        -- count number of correct answers
+        _, idx  = scores:max(2) -- check what to write here
+        for j = 1, opt.batch_size do
+            if idx[j][1] == a_batch[j] then
+                count = count + 1
+            end
+        end
+    end
+    -- set to training mode once done with validation
+    model:training()
+    model:training()
+
+    -- return accuracy
+    return count / (n * opt.batch_size)
+
+end 
+
 -- closure to evaluate f and df/dx
 function feval(x)
     if model_params ~= x then
@@ -121,11 +152,16 @@ for iter = 1, opt.max_iters do
         logger:add{iter, epoch, running_avg_loss}
         collectgarbage()
     end
+    
+    state.learningRate = state.learningRate * opt.decay_factor
+    
+     -- Calculate validation accuracy and save model snapshot
     if iter % opt.checkpoint_every == 0 then
+        print('Checkpointing. Calculating validation accuracy..')
         paths.mkdir(opt.checkpoint_path)
-        local save_file = string.format(opt.checkpoint_path .. 'iter_%d.t7', iter)
-        print('Checkpointing to ' .. save_file)
+        local val_acc = feval_val()
+        local save_file = string.format(opt.checkpoint_path .. 'iter_%d.t7', iter, epoch, val_acc)
+        print('Saving checkpoint to ' .. save_file)
         torch.save(save_file, {model_params = model_params, opt = opt})
     end
-    state.learningRate = state.learningRate * opt.decay_factor
 end
