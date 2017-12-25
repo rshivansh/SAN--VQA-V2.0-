@@ -92,12 +92,13 @@ function feval_val(max_batches)
     count = 0
     n=(dataloader['ques']:size(1) / opt.batch_size) ----- check what to write here
     if max_batches ~= nil then n = math.min(n, max_batches) end
+	
     model:evaluate()
     
     for i = 1, n do
         
         -- load question batch, answer batch and image features batch
-        batch = dataloader:next_batch(opt) -----check what to write here
+        batch = dataloader:next_batch_eval(opt) -----check what to write here
         -- forward pass
         scores = model:forward({batch[1], batch[2]})
         
@@ -159,8 +160,8 @@ for iter = 1, opt.max_iters do
     if iter % opt.checkpoint_every == 0 or iter ==opt.max_iters then
 	
     local val_loss,val_acc = feval_val(2)
-	print ( 'validation loss : ' , val_loss , ' accuracy ' , vall_acc )
-	print('Checkpointing. Calculating validation accuracy..')
+    print ( 'validation loss : ' , val_loss , ' accuracy ' , val_acc )
+    print('Checkpointing. Calculating validation accuracy..')
     paths.mkdir(opt.checkpoint_path)
     local save_file = string.format('%s/%s_epoch%.2f_%.4f.t7', opt.checkpoint_path, opt.save_file, epoch, val_acc)
     print('Saving checkpoint to ' .. save_file)
