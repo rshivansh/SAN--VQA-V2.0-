@@ -105,7 +105,7 @@ function feval_val(max_batches)
         -- count number of correct answers
         _, idx  = scores:max(2) -- check what to write here
         for j = 1, opt.batch_size do
-            if idx[j][1] == a_batch[j] then
+            if idx[j][1] == batch[3][j] then
                 count = count + 1
             end
         end
