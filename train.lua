@@ -159,8 +159,8 @@ for iter = 1, opt.max_iters do
      -- Calculate validation accuracy and save model snapshot
     if iter % opt.checkpoint_every == 0 or iter ==opt.max_iters then
 	
-    local val_loss,val_acc = feval_val(2)
-    print ( 'validation loss : ' , val_loss , ' accuracy ' , val_acc )
+    local val_acc = feval_val()
+    print (' accuracy ' , val_acc )
     print('Checkpointing. Calculating validation accuracy..')
     paths.mkdir(opt.checkpoint_path)
     local save_file = string.format('%s/%s_epoch%.2f_%.4f.t7', opt.checkpoint_path, opt.save_file, epoch, val_acc)
